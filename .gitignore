@@ -31,3 +31,11 @@ yarn-error.log*
 # Python files
 *.pyc
 __pycache__/
+
+# MongoDB database files
+*.bson
+*.json
+*.lock
+dump/
+*.mongodb
+*.db
