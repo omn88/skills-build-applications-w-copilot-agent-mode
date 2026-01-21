@@ -34,31 +34,57 @@ function Users() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading users...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-5">
+      <div className="alert alert-info" role="alert">
+        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Loading users...
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-5">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Users</h2>
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Team</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id || index}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.team}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="container mt-5">
+      <div className="card shadow">
+        <div className="card-header bg-success text-white">
+          <h2 className="mb-0">👥 Users</h2>
+        </div>
+        <div className="card-body">
+          {users.length === 0 ? (
+            <p className="text-muted">No users found.</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-striped table-hover align-middle">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Team</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user, index) => (
+                    <tr key={user.id || index}>
+                      <th scope="row">{index + 1}</th>
+                      <td><strong>{user.name}</strong></td>
+                      <td><a href={`mailto:${user.email}`} className="link-primary">{user.email}</a></td>
+                      <td><span className="badge bg-secondary">{user.team}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

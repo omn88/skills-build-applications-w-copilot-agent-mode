@@ -34,33 +34,62 @@ function Leaderboard() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading leaderboard...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-5">
+      <div className="alert alert-info" role="alert">
+        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Loading leaderboard...
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-5">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Leaderboard</h2>
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Team</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leaderboard
-              .sort((a, b) => b.points - a.points)
-              .map((entry, index) => (
-                <tr key={entry.id || index}>
-                  <td>{index + 1}</td>
-                  <td>{entry.team}</td>
-                  <td>{entry.points}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+    <div className="container mt-5">
+      <div className="card shadow">
+        <div className="card-header bg-warning text-dark">
+          <h2 className="mb-0">🏆 Leaderboard</h2>
+        </div>
+        <div className="card-body">
+          {leaderboard.length === 0 ? (
+            <p className="text-muted">No leaderboard data found.</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-striped table-hover align-middle">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboard
+                    .sort((a, b) => b.points - a.points)
+                    .map((entry, index) => (
+                      <tr key={entry.id || index}>
+                        <th scope="row">
+                          {index === 0 && <span className="badge bg-warning text-dark fs-5">🥇 1</span>}
+                          {index === 1 && <span className="badge bg-secondary fs-5">🥈 2</span>}
+                          {index === 2 && <span className="badge bg-danger fs-5">🥉 3</span>}
+                          {index > 2 && <span className="badge bg-light text-dark">{index + 1}</span>}
+                        </th>
+                        <td><strong>{entry.team}</strong></td>
+                        <td><span className="badge bg-primary fs-6">{entry.points} pts</span></td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

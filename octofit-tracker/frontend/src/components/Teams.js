@@ -34,30 +34,60 @@ function Teams() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading teams...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-5">
+      <div className="alert alert-info" role="alert">
+        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Loading teams...
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-5">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Teams</h2>
-      <div className="row">
-        {teams.map((team, index) => (
-          <div key={team.id || index} className="col-md-6 mb-3">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">{team.name}</h5>
-                <p className="card-text">
-                  <strong>Members:</strong>
-                  <ul>
-                    {team.members && team.members.map((member, idx) => (
-                      <li key={idx}>{member}</li>
-                    ))}
-                  </ul>
-                </p>
-              </div>
+    <div className="container mt-5">
+      <div className="card shadow mb-4">
+        <div className="card-header bg-info text-white">
+          <h2 className="mb-0">⚡ Teams</h2>
+        </div>
+        <div className="card-body">
+          {teams.length === 0 ? (
+            <p className="text-muted">No teams found.</p>
+          ) : (
+            <div className="row">
+              {teams.map((team, index) => (
+                <div key={team.id || index} className="col-md-6 col-lg-4 mb-4">
+                  <div className="card h-100 shadow-sm border-info">
+                    <div className="card-header bg-info text-white">
+                      <h5 className="card-title mb-0 text-uppercase"><strong>{team.name}</strong></h5>
+                    </div>
+                    <div className="card-body">
+                      <h6 className="card-subtitle mb-3 text-muted">Team Members:</h6>
+                      {team.members && team.members.length > 0 ? (
+                        <ul className="list-group list-group-flush">
+                          {team.members.map((member, idx) => (
+                            <li key={idx} className="list-group-item">
+                              👤 {member}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-muted">No members</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
     </div>
   );

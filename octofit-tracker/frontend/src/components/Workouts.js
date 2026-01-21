@@ -34,27 +34,59 @@ function Workouts() {
       });
   }, []);
 
-  if (loading) return <div className="container mt-4"><p>Loading workouts...</p></div>;
-  if (error) return <div className="container mt-4"><p className="text-danger">Error: {error}</p></div>;
+  if (loading) return (
+    <div className="container mt-5">
+      <div className="alert alert-info" role="alert">
+        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Loading workouts...
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="container mt-5">
+      <div className="alert alert-danger" role="alert">
+        <strong>Error:</strong> {error}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>Workouts</h2>
-      <div className="row">
-        {workouts.map((workout, index) => (
-          <div key={workout.id || index} className="col-md-4 mb-3">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">{workout.name}</h5>
-                <p className="card-text">
-                  <span className={`badge bg-${workout.difficulty === 'easy' ? 'success' : workout.difficulty === 'medium' ? 'warning' : 'danger'}`}>
-                    {workout.difficulty}
-                  </span>
-                </p>
-              </div>
+    <div className="container mt-5">
+      <div className="card shadow mb-4">
+        <div className="card-header bg-danger text-white">
+          <h2 className="mb-0">💪 Workouts</h2>
+        </div>
+        <div className="card-body">
+          {workouts.length === 0 ? (
+            <p className="text-muted">No workouts found.</p>
+          ) : (
+            <div className="row">
+              {workouts.map((workout, index) => (
+                <div key={workout.id || index} className="col-md-6 col-lg-4 mb-4">
+                  <div className="card h-100 shadow-sm border-danger">
+                    <div className="card-body text-center">
+                      <div className="mb-3">
+                        <span className="fs-1">⚡</span>
+                      </div>
+                      <h5 className="card-title text-uppercase"><strong>{workout.name}</strong></h5>
+                      <hr />
+                      <div className="mt-3">
+                        <span className={`badge fs-6 ${
+                          workout.difficulty === 'easy' ? 'bg-success' : 
+                          workout.difficulty === 'medium' ? 'bg-warning text-dark' : 
+                          'bg-danger'
+                        }`}>
+                          {workout.difficulty.toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
     </div>
   );
