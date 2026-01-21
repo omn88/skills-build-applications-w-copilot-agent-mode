@@ -38,4 +38,5 @@ __pycache__/
 *.lock
 dump/
 *.mongodb
-*.db
+# SQLite database
+db.sqlite3
